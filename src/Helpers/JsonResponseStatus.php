@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Trait ResponseError
@@ -83,11 +84,11 @@ trait JsonResponseStatus
                 break;
             case $exception instanceof ValidationException:
                 $data = [
-                    'status'  => JsonResponseStatus::HTTP_UNPROCESSABLE_ENTITY,
+                    'status'  => JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
                     'success' => false,
                     'message' => $exception->getMessage()
                 ];
-                return response()->json($data, JsonResponseStatus::HTTP_UNPROCESSABLE_ENTITY);
+                return response()->json($data, JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
                 break;
             case $exception instanceof TokenExpiredException:
                 $data = [
@@ -115,11 +116,11 @@ trait JsonResponseStatus
                 break;
             default:
                 $data = [
-                    'status'  => JsonResponseStatus::HTTP_EXPECTATION_FAILED,
+                    'status'  => JsonResponse::HTTP_EXPECTATION_FAILED,
                     'success' => false,
                     'message' => 'Whoops! Something went wrong.'
                 ];
-                return response()->json($data, JsonResponseStatus::HTTP_EXPECTATION_FAILED);
+                return response()->json($data, JsonResponse::HTTP_EXPECTATION_FAILED);
                 break;
         }
     }
